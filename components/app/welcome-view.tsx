@@ -69,8 +69,8 @@ export const WelcomeView = forwardRef<HTMLDivElement, WelcomeViewProps>(
         </section>
 
         {/* Footer */}
-        <div className="fixed bottom-5 left-0 flex w-full items-center justify-center z-50">
-          <p className="font-orbitron font-bold text-sm md:text-base tracking-widest text-white bg-black/60 px-4 py-2 rounded-md shadow-[0_4px_20px_rgba(0,0,0,0.9)] backdrop-blur-sm">
+        <div className="z-50·flex·w-full·items-center·justify-center">
+          <p className="rounded-md·bg-black/60·px-4·py-2·text-sm·font-bold·tracking-widest·text-white·shadow-[0_4px_20px_rgba(0,0,0,0.9)]·backdrop-blur-sm·md:text-base">
             Created by Bhuvan Warshe
           </p>
         </div>
