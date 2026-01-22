@@ -1,109 +1,58 @@
-# Agent Starter for React
+# 🦾 BUCKY
 
-This is a starter template for [LiveKit Agents](https://docs.livekit.io/agents) that provides a simple voice interface using the [LiveKit JavaScript SDK](https://github.com/livekit/client-sdk-js). It supports [voice](https://docs.livekit.io/agents/start/voice-ai), [transcriptions](https://docs.livekit.io/agents/build/text/), and [virtual avatars](https://docs.livekit.io/agents/integrations/avatar).
+**BUCKY** is a real-time, voice-enabled AI assistant built using **LiveKit Agents** and **Google Gemini Realtime**, featuring natural conversations, tool execution, and persistent memory — all wrapped in a modern web interface.
 
-Also available for:
-[Android](https://github.com/livekit-examples/agent-starter-android) • [Flutter](https://github.com/livekit-examples/agent-starter-flutter) • [Swift](https://github.com/livekit-examples/agent-starter-swift) • [React Native](https://github.com/livekit-examples/agent-starter-react-native)
+> Talk to your AI assistant in real time.  
+> BUCKY listens, understands, remembers, and acts.
 
-<picture>
-  <source srcset="./.github/assets/readme-hero-dark.webp" media="(prefers-color-scheme: dark)">
-  <source srcset="./.github/assets/readme-hero-light.webp" media="(prefers-color-scheme: light)">
-  <img src="./.github/assets/readme-hero-light.webp" alt="App screenshot">
-</picture>
+---
 
-### Features:
+## ✨ Features
 
-- Real-time voice interaction with LiveKit Agents
-- Camera video streaming support
-- Screen sharing capabilities
-- Audio visualization and level monitoring
-- Virtual avatar integration
-- Light/dark theme switching with system preference detection
-- Customizable branding, colors, and UI text via configuration
+- 🎙️ **Real-time Voice AI**
+  - Low-latency speech-to-speech conversations using LiveKit
+  - Interruptible responses (barge-in support)
 
-This template is built with Next.js and is free for you to use or modify as you see fit.
+- 🤖 **Gemini Realtime AI**
+  - Powered by Google Gemini Realtime models
+  - Natural, expressive voice responses
 
-### Project structure
+- 🧠 **Persistent Memory**
+  - Long-term conversation memory using Mem0
+  - Context-aware responses across sessions
 
-```
-agent-starter-react/
-├── app/
-│   ├── (app)/
-│   ├── api/
-│   ├── components/
-│   ├── fonts/
-│   ├── globals.css
-│   └── layout.tsx
-├── components/
-│   ├── livekit/
-│   ├── ui/
-│   ├── app.tsx
-│   ├── session-view.tsx
-│   └── welcome.tsx
-├── hooks/
-├── lib/
-├── public/
-└── package.json
-```
+- 🛠️ **Tool Calling**
+  - Web search (Google Custom Search)
+  - Weather lookup
+  - Date & time awareness
+  - System-level actions (desktop control – local mode)
 
-## Getting started
+- 🌐 **Modern Web Interface**
+  - Built with Next.js + React
+  - Live background video experience
+  - One-click “Talk to BUCKY” interaction
 
-> [!TIP]
-> If you'd like to try this application without modification, you can deploy an instance in just a few clicks with [LiveKit Cloud Sandbox](https://cloud.livekit.io/projects/p_/sandbox/templates/agent-starter-react).
+- 🔐 **Secure by Design**
+  - Environment-based secrets
+  - Frontend and backend separated for deployment
 
-[![Open on LiveKit](https://img.shields.io/badge/Open%20on%20LiveKit%20Cloud-002CF2?style=for-the-badge&logo=external-link)](https://cloud.livekit.io/projects/p_/sandbox/templates/agent-starter-react)
+---
 
-Run the following command to automatically clone this template.
+## 🏗️ Architecture
 
-```bash
-lk app create --template agent-starter-react
-```
+```text
+Frontend (Next.js + LiveKit UI)
+        |
+        | WebRTC / WebSocket
+        ↓
+LiveKit Cloud
+        |
+        ↓
+BUCKY Agent (Python)
+  - Gemini Realtime
+  - Tool execution
+  - Memory (Mem0)
 
-Then run the app with:
-
-```bash
-pnpm install
-pnpm dev
-```
-
-And open http://localhost:3000 in your browser.
-
-You'll also need an agent to speak with. Try our starter agent for [Python](https://github.com/livekit-examples/agent-starter-python), [Node.js](https://github.com/livekit-examples/agent-starter-node), or [create your own from scratch](https://docs.livekit.io/agents/start/voice-ai/).
-
-## Configuration
-
-This starter is designed to be flexible so you can adapt it to your specific agent use case. You can easily configure it to work with different types of inputs and outputs:
-
-#### Example: App configuration (`app-config.ts`)
-
-```ts
-export const APP_CONFIG_DEFAULTS: AppConfig = {
-  companyName: 'LiveKit',
-  pageTitle: 'LiveKit Voice Agent',
-  pageDescription: 'A voice agent built with LiveKit',
-
-  supportsChatInput: true,
-  supportsVideoInput: true,
-  supportsScreenShare: true,
-  isPreConnectBufferEnabled: true,
-
-  logo: '/lk-logo.svg',
-  accent: '#002cf2',
-  logoDark: '/lk-logo-dark.svg',
-  accentDark: '#1fd5f9',
-  startButtonText: 'Start call',
-
-  // for LiveKit Cloud Sandbox
-  sandboxId: undefined,
-  agentName: undefined,
-};
-```
-
-You can update these values in [`app-config.ts`](./app-config.ts) to customize branding, features, and UI text for your deployment.
-
-> [!NOTE]
-> The `sandboxId` and `agentName` are for the LiveKit Cloud Sandbox environment.
-> They are not used for local development.
 
 #### Environment Variables
 
@@ -117,6 +66,3 @@ LIVEKIT_URL=https://your-livekit-server-url
 
 These are required for the voice agent functionality to work with your LiveKit project.
 
-## Contributing
-
-This template is open source and we welcome contributions! Please open a PR or issue through GitHub, and don't forget to join us in the [LiveKit Community Slack](https://livekit.io/join-slack)!
