@@ -24,7 +24,7 @@ export const WelcomeView = forwardRef<HTMLDivElement, WelcomeViewProps>(
     return (
       <div
         ref={ref}
-        className="relative min-h-screen overflow-hidden flex items-center justify-center"
+        className="flex·min-h-screen·items-center·justify-center·overflow-hidden"
       >
         {/* 🔥 Background Video */}
         <video
@@ -32,7 +32,7 @@ export const WelcomeView = forwardRef<HTMLDivElement, WelcomeViewProps>(
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
         >
           <source src="/BuckyFuture.mp4" type="video/mp4" />
         </video>
