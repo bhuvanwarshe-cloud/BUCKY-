@@ -22,7 +22,7 @@ from livekit.agents import (
 )
 from livekit.plugins import google, noise_cancellation
 
-# Imports updated below in usage
+from BuckyPrompts import BUCKY_BEHAVIOR_PROMPT, BUCKY_GREETING_PROMPT
 from typing import Optional
 from pydantic import Field
 from datetime import datetime, timezone, timedelta
@@ -66,18 +66,8 @@ async def entrypoint(ctx: agents.JobContext):
         voice="Charon",
     )
 
-    # Wait for participant to join to get metadata
-    participant = await ctx.wait_for_participant()
-    
-    metadata = participant.metadata
-    
-    # Generate dynamic prompts
-    from BuckyPrompts import get_behavior_prompt, get_greeting_prompt
-    behavior_prompt = get_behavior_prompt(metadata)
-    greeting_prompt = get_greeting_prompt(metadata)
-
     agent = Assistant(
-        instructions=behavior_prompt,
+        instructions=BUCKY_BEHAVIOR_PROMPT,
         llm=llm,
         tools=[
             livekit_open_app,
@@ -112,7 +102,7 @@ async def entrypoint(ctx: agents.JobContext):
 
     # 🎙️ Scripted greeting (SAFE now)
     await session.generate_reply(
-        instructions=greeting_prompt
+        instructions=BUCKY_GREETING_PROMPT
     )
 
 
