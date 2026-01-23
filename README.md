@@ -40,7 +40,7 @@
 
 ## 🏗️ Architecture
 
-```text
+````text
 Frontend (Next.js + LiveKit UI)
         |
         | WebRTC / WebSocket
@@ -62,7 +62,6 @@ You'll also need to configure your LiveKit credentials in `.env.local` (copy `.e
 LIVEKIT_API_KEY=your_livekit_api_key
 LIVEKIT_API_SECRET=your_livekit_api_secret
 LIVEKIT_URL=https://your-livekit-server-url
-```
+````
 
 These are required for the voice agent functionality to work with your LiveKit project.
-

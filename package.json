@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "concurrently -n FRONTEND,BACKEND -c blue,green \"pnpm dev:next\" \"pnpm dev:py\"",
     "dev:next": "next dev --turbopack",
-    "dev:py": "python C:\\Users\\HP\\Desktop\\BUCKY\\agent2.py dev"
-
-,
+    "dev:py": "python C:\\Users\\HP\\Desktop\\BUCKY\\agent2.py dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
