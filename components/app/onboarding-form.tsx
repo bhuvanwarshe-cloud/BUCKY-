@@ -119,7 +119,15 @@ export function OnboardingForm({ onComplete }: OnboardingFormProps) {
               <select
                 value={formData.assistantBehavior}
                 onChange={(e) =>
-                  setFormData({ ...formData, assistantBehavior: e.target.value as any })
+                  setFormData({
+                    ...formData,
+                    assistantBehavior: e.target.value as
+                      | 'tactical'
+                      | 'friendly'
+                      | 'professional'
+                      | 'energetic'
+                      | 'minimal',
+                  })
                 }
                 className="w-full appearance-none rounded-md border border-cyan-500/20 bg-cyan-950/20 px-3 py-2 text-sm text-cyan-100 transition-all focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 focus:outline-none"
               >
