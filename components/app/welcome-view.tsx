@@ -22,9 +22,7 @@ interface WelcomeViewProps {
 export const WelcomeView = forwardRef<HTMLDivElement, WelcomeViewProps>(
   ({ startButtonText, onStartCall }, ref) => {
     return (
-      <div
-        ref={ref} className="flex·min-h-screen·items-center·justify-center·overflow-hidden"
-      >
+      <div ref={ref} className="flex min-h-screen items-center justify-center overflow-hidden">
         {/* 🔥 Background Video */}
         <video
           autoPlay
@@ -41,6 +39,7 @@ export const WelcomeView = forwardRef<HTMLDivElement, WelcomeViewProps>(
 
         {/* Top-left avatar */}
         <div className="fixed top-4 left-4 z-50">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/Gemini_Generated_Image_jqvvutjqvvutjqvv (1).png"
             alt="Bhuvan"
