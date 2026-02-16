@@ -22,7 +22,10 @@ interface WelcomeViewProps {
 export const WelcomeView = forwardRef<HTMLDivElement, WelcomeViewProps>(
   ({ startButtonText, onStartCall }, ref) => {
     return (
-      <div ref={ref} className="flex min-h-screen flex-col items-center justify-center overflow-hidden">
+      <div
+        ref={ref}
+        className="flex min-h-screen flex-col items-center justify-center overflow-hidden"
+      >
         {/* 🔥 Background Video */}
         <video
           autoPlay
