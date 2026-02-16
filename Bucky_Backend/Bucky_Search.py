@@ -1,5 +1,6 @@
 import os
 import asyncio
+import sys
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
 
@@ -9,6 +10,18 @@ load_dotenv(".env.local")
 GOOGLE_SEARCH_API_KEY = os.getenv("GOOGLE_SEARCH_API_KEY")
 SEARCH_ENGINE_ID = os.getenv("SEARCH_ENGINE_ID")
 
+def safe_print(text: str):
+    """
+    Safely print text to the console, replacing characters that cannot be encoded.
+    This prevents UnicodeEncodeError on Windows terminals with cp1252 encoding.
+    """
+    try:
+        print(text)
+    except UnicodeEncodeError:
+        # Encode to the stdout encoding (or utf-8 default), replacing errors, then decode back
+        encoding = sys.stdout.encoding or 'utf-8'
+        safe_text = text.encode(encoding, errors='replace').decode(encoding)
+        print(safe_text)
 
 async def perform_search(query: str, num_results: int = 3) -> str:
     """
@@ -17,13 +30,13 @@ async def perform_search(query: str, num_results: int = 3) -> str:
     """
 
     if not GOOGLE_SEARCH_API_KEY or not SEARCH_ENGINE_ID:
-        print("[ERROR] Missing Google Search API key or Search Engine ID")
+        safe_print("[ERROR] Missing Google Search API key or Search Engine ID")
         return "Sir, my search system is currently offline."
 
-    print("\n===== Google Search Started =====")
-    print(f"Query       : {query}")
-    print(f"Max results : {num_results}")
-    print("================================\n")
+    safe_print("\n===== Google Search Started =====")
+    safe_print(f"Query       : {query}")
+    safe_print(f"Max results : {num_results}")
+    safe_print("================================\n")
 
     loop = asyncio.get_running_loop()
 
@@ -45,7 +58,7 @@ async def perform_search(query: str, num_results: int = 3) -> str:
             
             return result
         except Exception as e:
-            print(f"[ERROR] Search execution failed: {e}")
+            safe_print(f"[ERROR] Search execution failed: {e}")
             raise
 
     try:
@@ -55,19 +68,19 @@ async def perform_search(query: str, num_results: int = 3) -> str:
         items = response.get("items", [])
 
         if not items:
-            print("[INFO] No search results found.")
+            safe_print("[INFO] No search results found.")
             return f"Sir, I couldn't find reliable results for '{query}'."
 
-        print("===== Search Results =====")
+        safe_print("===== Search Results =====")
         for i, item in enumerate(items, start=1):
             title = item.get("title", "No title")
             snippet = item.get("snippet", "No description")
             link = item.get("link", "No link")
 
-            print(f"\n{i}. {title}")
-            print(f"   {snippet}")
-            print(f"   Link: {link}")
-        print("==========================\n")
+            safe_print(f"\n{i}. {title}")
+            safe_print(f"   {snippet}")
+            safe_print(f"   Link: {link}")
+        safe_print("==========================\n")
 
         key_points = []
         for item in items[:num_results]:
@@ -85,7 +98,7 @@ async def perform_search(query: str, num_results: int = 3) -> str:
         return summary
 
     except Exception as e:
-        print(f"[ERROR] Google search failed: {e}")
+        safe_print(f"[ERROR] Google search failed: {e}")
         import traceback
         traceback.print_exc()
         return f"Sir, I'm unable to search for '{query}' at the moment."

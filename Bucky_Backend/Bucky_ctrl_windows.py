@@ -2,10 +2,17 @@ import os
 import subprocess
 import psutil
 import platform
-import win32com.client
 from pathlib import Path
 from typing import Optional, List
 from livekit.agents import function_tool
+
+# Cross-platform check
+IS_WINDOWS = platform.system() == "Windows"
+
+if IS_WINDOWS:
+    import win32com.client
+else:
+    print("[WARN] Non-Windows environment detected. System control tools will be disabled.")
 
 # ===============================
 # 🔗 APP SHORTCUT ALIASES
@@ -56,6 +63,8 @@ def find_folder_by_name(folder_name: str) -> Optional[str]:
     Search for a folder by name in common locations.
     Returns the full path if found, None otherwise.
     """
+    if not IS_WINDOWS: return None
+
     folder_name_lower = folder_name.lower().strip()
     
     # Check aliases first
@@ -91,6 +100,8 @@ def find_file_by_name(file_name: str, search_paths: List[str] = None) -> Optiona
     Supports partial name matching and extension-less search.
     Returns the full path if found, None otherwise.
     """
+    if not IS_WINDOWS: return None
+
     if search_paths is None:
         search_paths = file_search_paths
     
@@ -165,6 +176,9 @@ async def perform_system_control(action: str, params: Optional[str] = None) -> s
     Perform Windows system control tasks with logging.
     Works with LiveKit via @function_tool wrappers.
     """
+    if not IS_WINDOWS:
+        return f"Sir, I cannot perform '{action}' because I am running on a cloud server (Linux). These features require a Windows environment."
+
     try:
         # -----------------
         # POWER COMMANDS
