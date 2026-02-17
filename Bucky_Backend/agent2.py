@@ -188,6 +188,23 @@ async def system_control(
 # Run Worker
 # =========================
 if __name__ == "__main__":
+    # =========================
+    # 🏥 Render Health Check Server
+    # =========================
+    import http.server
+    import socketserver
+    import threading
+
+    def start_health_server():
+        port = int(os.getenv("PORT", 8080))
+        handler = http.server.SimpleHTTPRequestHandler
+        with socketserver.TCPServer(("", port), handler) as httpd:
+            print(f"Health check server listening on port {port}")
+            httpd.serve_forever()
+
+    # Start health check in a daemon thread
+    threading.Thread(target=start_health_server, daemon=True).start()
+
     agents.cli.run_app(
         agents.WorkerOptions(entrypoint_fnc=entrypoint)
     )
