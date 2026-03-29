@@ -190,20 +190,33 @@ async def system_control(
 if __name__ == "__main__":
     # =========================
     # 🏥 Render Health Check Server
+    # Only ONE server, bound to Render's PORT (default: 10000)
+    # Returns plain 200 OK — never exposes directory contents
     # =========================
-    import http.server
-    import socketserver
+    from http.server import BaseHTTPRequestHandler, HTTPServer
     import threading
 
-    def start_health_server():
-        port = int(os.getenv("PORT", 8080))
-        handler = http.server.SimpleHTTPRequestHandler
-        with socketserver.TCPServer(("", port), handler) as httpd:
-            print(f"Health check server listening on port {port}")
-            httpd.serve_forever()
+    class _HealthHandler(BaseHTTPRequestHandler):
+        """Minimal health check — returns 200 OK for any GET request."""
 
-    # Start health check in a daemon thread
-    threading.Thread(target=start_health_server, daemon=True).start()
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"OK")
+
+        def log_message(self, format, *args):  # suppress access logs
+            pass
+
+    def _start_health_server():
+        port = int(os.getenv("PORT", 10000))  # Render assigns PORT; default 10000
+        server = HTTPServer(("0.0.0.0", port), _HealthHandler)
+        server.allow_reuse_address = True       # prevent TIME_WAIT bind failures on restart
+        print(f"[HEALTH] Server listening on 0.0.0.0:{port}")
+        server.serve_forever()
+
+    # Daemon thread — dies automatically when the main process exits
+    threading.Thread(target=_start_health_server, daemon=True, name="health-check").start()
 
     agents.cli.run_app(
         agents.WorkerOptions(entrypoint_fnc=entrypoint)
